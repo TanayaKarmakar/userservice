@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+public class AuthController {
+    private static Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private UserService userService;
