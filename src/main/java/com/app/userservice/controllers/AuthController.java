@@ -4,7 +4,7 @@ import com.app.userservice.exceptions.BusinessException;
 import com.app.userservice.exceptions.UserAPIException;
 import com.app.userservice.models.dtos.SessionDTO;
 import com.app.userservice.models.dtos.UserDTO;
-import com.app.userservice.services.UserService;
+import com.app.userservice.services.AuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class AuthController {
     private static Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
-    private UserService userService;
+    private AuthService userService;
 
     @PostMapping("/users")
     public ResponseEntity<UserDTO> createNewUser(@RequestBody UserDTO userDTO) throws UserAPIException {

@@ -13,7 +13,7 @@ import com.app.userservice.models.mappers.ModelMapper;
 import com.app.userservice.repositories.SessionRepository;
 import com.app.userservice.repositories.UserRepository;
 import com.app.userservice.helpers.BusinessValidationHelper;
-import com.app.userservice.services.UserService;
+import com.app.userservice.services.AuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl implements UserService {
-    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+public class AuthServiceImpl implements AuthService {
+    private static Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
