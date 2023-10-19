@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -102,30 +102,30 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserDTO logout(SessionDTO sessionDTO) throws BusinessException {
-//        try {
-//            User currentUser = getUser(sessionDTO.getUserId());
-//            Optional<Session> sessionOptional = sessionRepository.findById(UUID.fromString(sessionDTO.getSessionId()));
-//            if(sessionOptional.isEmpty()) {
-//                logger.error("Session with ID: {} not found", sessionDTO.getSessionId());
-//                throw new NotFoundException(ErrorCodes.NOT_FOUND);
-//            }
-//            sessionRepository.delete(sessionOptional.get());
-//            return modelMapper.toUserDTO(currentUser);
-//        } catch (Exception exception) {
-//            logger.error("An error occurred while trying to logout user: {}", sessionDTO.getUserId(), exception);
-//            throw errorHandlerHelper.buildBusinessException(exception);
-//        }
-        return null;
+    public UserDTO logout(String token, Long id) throws BusinessException {
+        try {
+            User currentUser = getUser(id);
+            Optional<Session> sessionOptional = sessionRepository.findByTokenAndUserId(token, id);
+            if(sessionOptional.isEmpty()) {
+                logger.error("Session with ID: {} not found for user: {}", token, id);
+                throw new NotFoundException(ErrorCodes.NOT_FOUND);
+            }
+            sessionOptional.get().setStatus(SessionStatus.ENDED);
+            sessionRepository.save(sessionOptional.get());
+            return UserDTO.from(currentUser);
+        } catch (Exception exception) {
+            logger.error("An error occurred while trying to logout user: {}", id, exception);
+            throw errorHandlerHelper.buildBusinessException(exception);
+        }
+
     }
 
-    private User getUser(String userID) {
-//        Optional<User> currentUser = userRepository.findById(UUID.fromString(userID));
-//        if(currentUser.isEmpty()) {
-//            logger.error("User with ID: {} not exists ", userID);
-//            throw new NotFoundException(ErrorCodes.NOT_FOUND);
-//        }
-//        return currentUser.get();
-        return null;
+    private User getUser(Long userID) {
+        Optional<User> currentUser = userRepository.findById(userID);
+        if(currentUser.isEmpty()) {
+            logger.error("User with ID: {} not exists ", userID);
+            throw new NotFoundException(ErrorCodes.NOT_FOUND);
+        }
+        return currentUser.get();
     }
 }

@@ -2,10 +2,7 @@ package com.app.userservice.controllers;
 
 import com.app.userservice.exceptions.BusinessException;
 import com.app.userservice.exceptions.UserAPIException;
-import com.app.userservice.models.dtos.LoginRequestDTO;
-import com.app.userservice.models.dtos.SessionDTO;
-import com.app.userservice.models.dtos.SignupRequestDTO;
-import com.app.userservice.models.dtos.UserDTO;
+import com.app.userservice.models.dtos.*;
 import com.app.userservice.services.AuthService;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -53,12 +50,12 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<UserDTO> logout(@RequestBody SessionDTO sessionDTO) throws UserAPIException {
+    public ResponseEntity<UserDTO> logout(@RequestBody SignoutRequestDTO signoutRequestDTO) throws UserAPIException {
         try {
-            UserDTO loggedOutUser = authService.logout(sessionDTO);
+            UserDTO loggedOutUser = authService.logout(signoutRequestDTO.getToken(), signoutRequestDTO.getId());
             return new ResponseEntity<>(loggedOutUser, HttpStatus.OK);
         } catch (BusinessException businessException) {
-            logger.error("An error occurred while trying to logout the user: {}", sessionDTO.getUserId());
+            logger.error("An error occurred while trying to logout the user: {}", signoutRequestDTO.getId());
             throw new UserAPIException(businessException);
         }
     }
