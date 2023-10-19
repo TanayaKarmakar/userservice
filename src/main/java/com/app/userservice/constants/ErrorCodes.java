@@ -5,4 +5,6 @@ public class ErrorCodes {
     public static final String NOT_FOUND = "NOT_FOUND:Item not found";
 
     public static final String TO_MANY_SESSIONS = "TO_MANY_SESSIONS:Too many sessions opened, please close some sessions";
+
+    public static final String INCORRECT_PASSWORD = "INCORRECT_PASSWORD: Please login with correct credentials";
 }

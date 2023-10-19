@@ -1,6 +1,5 @@
 package com.app.userservice.helpers;
 
-import com.app.userservice.models.dtos.UserDTO;
 import com.app.userservice.models.entities.User;
 import com.app.userservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,8 @@ public class BusinessValidationHelper {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean isEmailExists(UserDTO userDTO) {
-        Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(userDTO.getEmail()));
+    public boolean isEmailExists(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
         return !userOptional.isEmpty();
     }
 }

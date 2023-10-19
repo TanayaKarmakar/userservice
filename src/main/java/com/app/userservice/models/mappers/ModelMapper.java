@@ -1,6 +1,7 @@
 package com.app.userservice.models.mappers;
 
 import com.app.userservice.models.dtos.SessionDTO;
+import com.app.userservice.models.dtos.SignupRequestDTO;
 import com.app.userservice.models.dtos.UserDTO;
 import com.app.userservice.models.entities.Session;
 import com.app.userservice.models.entities.User;
@@ -11,15 +12,10 @@ import java.util.UUID;
 
 @Component
 public class ModelMapper {
-    public User toUser(UserDTO userDTO) {
+    public User toNewUser(SignupRequestDTO signupRequestDTO) {
         User user = new User();
-        if(!Objects.isNull(userDTO.getId())) {
-            user.setId(UUID.fromString(userDTO.getId()));
-        } else {
-            user.setId(UUID.randomUUID());
-        }
-        user.setEmail(userDTO.getEmail());
-        user.setEncryptedPass(userDTO.getEncryptedPass());
+        user.setEmail(signupRequestDTO.getEmail());
+        user.setEncryptedPass(signupRequestDTO.getPassword());
         return user;
     }
 
@@ -27,7 +23,6 @@ public class ModelMapper {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId().toString());
         userDTO.setEmail(user.getEmail());
-        userDTO.setEncryptedPass(user.getEncryptedPass());
         return userDTO;
     }
 
