@@ -87,7 +87,10 @@ public class AuthServiceImpl implements AuthService {
                 throw new BusinessValidationException(ErrorCodes.TO_MANY_SESSIONS + currentActiveSessions);
             }
 
-            if(!userOptional.get().getEncryptedPass().equals(password)) {
+            String storedPassword = userOptional.get().getEncryptedPass();
+            String currentPassword = bCryptPasswordEncoder.encode(password);
+
+            if(!bCryptPasswordEncoder.matches(storedPassword, currentPassword)) {
                 logger.error("User: {} has logged in with incorrect credentials", email);
                 throw new InvalidLoginException(ErrorCodes.INCORRECT_PASSWORD);
             }
