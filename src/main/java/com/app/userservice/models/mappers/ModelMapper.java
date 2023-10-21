@@ -7,21 +7,18 @@ import com.app.userservice.models.entities.Session;
 import com.app.userservice.models.entities.User;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-import java.util.UUID;
 
 @Component
 public class ModelMapper {
     public User toNewUser(SignupRequestDTO signupRequestDTO) {
         User user = new User();
         user.setEmail(signupRequestDTO.getEmail());
-        user.setEncryptedPass(signupRequestDTO.getPassword());
         return user;
     }
 
     public UserDTO toUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId().toString());
+        userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         return userDTO;
     }

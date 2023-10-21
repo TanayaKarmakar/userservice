@@ -6,7 +6,6 @@ import com.app.userservice.exceptions.BusinessValidationException;
 import com.app.userservice.exceptions.InvalidLoginException;
 import com.app.userservice.exceptions.NotFoundException;
 import com.app.userservice.helpers.ErrorHandlerHelper;
-import com.app.userservice.models.dtos.SessionDTO;
 import com.app.userservice.models.dtos.SignupRequestDTO;
 import com.app.userservice.models.dtos.UserDTO;
 import com.app.userservice.models.entities.Session;
@@ -22,6 +21,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,6 +47,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private ErrorHandlerHelper errorHandlerHelper;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public UserDTO createNewUser(SignupRequestDTO signupRequestDTO) throws BusinessException  {
         try {
@@ -56,6 +59,7 @@ public class AuthServiceImpl implements AuthService {
                 throw new BusinessValidationException(ErrorCodes.USER_EMAIL_EXISTS);
             }
             User createdUser = modelMapper.toNewUser(signupRequestDTO);
+            createdUser.setEncryptedPass(bCryptPasswordEncoder.encode(signupRequestDTO.getPassword()));
             userRepository.save(createdUser);
             logger.info("User creation finished for the user: {}", signupRequestDTO);
             return UserDTO.from(createdUser);
