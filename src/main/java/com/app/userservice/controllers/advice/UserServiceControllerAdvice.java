@@ -1,6 +1,6 @@
 package com.app.userservice.controllers.advice;
 
-import com.app.userservice.constants.AppConstants;
+import com.app.userservice.utils.constants.AppConstants;
 import com.app.userservice.exceptions.BusinessException;
 import com.app.userservice.exceptions.BusinessValidationException;
 import com.app.userservice.exceptions.NotFoundException;

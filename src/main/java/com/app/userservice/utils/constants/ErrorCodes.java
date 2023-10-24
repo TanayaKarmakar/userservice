@@ -1,4 +1,4 @@
-package com.app.userservice.constants;
+package com.app.userservice.utils.constants;
 
 public class ErrorCodes {
     public static final String USER_EMAIL_EXISTS = "USER_EMAIL_EXISTS:User with the email ID already exists";

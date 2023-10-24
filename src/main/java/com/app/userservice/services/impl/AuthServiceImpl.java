@@ -1,6 +1,7 @@
 package com.app.userservice.services.impl;
 
-import com.app.userservice.constants.ErrorCodes;
+import com.app.userservice.utils.TokenUtil;
+import com.app.userservice.utils.constants.ErrorCodes;
 import com.app.userservice.exceptions.BusinessException;
 import com.app.userservice.exceptions.BusinessValidationException;
 import com.app.userservice.exceptions.InvalidLoginException;
@@ -16,7 +17,8 @@ import com.app.userservice.repositories.SessionRepository;
 import com.app.userservice.repositories.UserRepository;
 import com.app.userservice.helpers.BusinessValidationHelper;
 import com.app.userservice.services.AuthService;
-import org.apache.commons.lang3.RandomStringUtils;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.MacAlgorithm;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import javax.crypto.SecretKey;
+import java.time.LocalDate;
+import java.util.*;
 
 
 @Service
@@ -95,7 +98,10 @@ public class AuthServiceImpl implements AuthService {
                 throw new InvalidLoginException(ErrorCodes.INCORRECT_PASSWORD);
             }
             Session session = new Session();
-            String token = RandomStringUtils.randomAlphanumeric(30);
+            //String token = RandomStringUtils.randomAlphanumeric(30);
+
+            String token = TokenUtil.buildJwtToken(userOptional.get());
+            logger.info("jwt token - {}", token);
             session.setToken(token);
             session.setUser(userOptional.get());
             session.setStatus(SessionStatus.ACTIVE);

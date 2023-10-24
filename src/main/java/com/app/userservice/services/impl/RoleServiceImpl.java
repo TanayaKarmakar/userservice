@@ -1,6 +1,6 @@
 package com.app.userservice.services.impl;
 
-import com.app.userservice.constants.ErrorCodes;
+import com.app.userservice.utils.constants.ErrorCodes;
 import com.app.userservice.exceptions.BusinessException;
 import com.app.userservice.exceptions.BusinessValidationException;
 import com.app.userservice.helpers.ErrorHandlerHelper;
