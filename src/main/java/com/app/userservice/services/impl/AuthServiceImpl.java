@@ -17,8 +17,7 @@ import com.app.userservice.repositories.SessionRepository;
 import com.app.userservice.repositories.UserRepository;
 import com.app.userservice.helpers.BusinessValidationHelper;
 import com.app.userservice.services.AuthService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.MacAlgorithm;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import java.time.LocalDate;
 import java.util.*;
 
 
