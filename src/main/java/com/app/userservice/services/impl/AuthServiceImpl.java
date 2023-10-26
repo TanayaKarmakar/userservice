@@ -130,6 +130,22 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
+    @Override
+    public SessionStatus validate(String token, Long userId)  {
+        Optional<Session> sessionOptional = sessionRepository.findByTokenAndUserId(token, userId);
+
+        if(sessionOptional.isEmpty())
+            return SessionStatus.ENDED;
+
+        Session session = sessionOptional.get();
+
+        if(!session.getStatus().equals(SessionStatus.ACTIVE))
+            return SessionStatus.ENDED;
+
+        return SessionStatus.ACTIVE;
+    }
+
+
     private User getUser(Long userID) {
         Optional<User> currentUser = userRepository.findById(userID);
         if(currentUser.isEmpty()) {

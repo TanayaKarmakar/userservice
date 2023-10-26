@@ -3,6 +3,7 @@ package com.app.userservice.controllers;
 import com.app.userservice.exceptions.BusinessException;
 import com.app.userservice.exceptions.UserAPIException;
 import com.app.userservice.models.dtos.*;
+import com.app.userservice.models.entities.SessionStatus;
 import com.app.userservice.services.AuthService;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -58,5 +59,11 @@ public class AuthController {
             logger.error("An error occurred while trying to logout the user: {}", signoutRequestDTO.getId());
             throw new UserAPIException(businessException);
         }
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<SessionStatus> validateToken(@RequestBody TokenValidationRequestDTO tokenValidationRequestDTO) {
+        SessionStatus sessionStatus = authService.validate(tokenValidationRequestDTO.getToken(), tokenValidationRequestDTO.getUserId());
+        return new ResponseEntity<>(sessionStatus, HttpStatus.OK);
     }
 }
