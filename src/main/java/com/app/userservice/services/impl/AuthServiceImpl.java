@@ -1,5 +1,6 @@
 package com.app.userservice.services.impl;
 
+import com.app.userservice.models.entities.Role;
 import com.app.userservice.utils.TokenUtil;
 import com.app.userservice.utils.constants.ErrorCodes;
 import com.app.userservice.exceptions.BusinessException;
@@ -18,6 +19,9 @@ import com.app.userservice.repositories.UserRepository;
 import com.app.userservice.helpers.BusinessValidationHelper;
 import com.app.userservice.services.AuthService;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,6 +145,17 @@ public class AuthServiceImpl implements AuthService {
 
         if(!session.getStatus().equals(SessionStatus.ACTIVE))
             return SessionStatus.ENDED;
+
+
+        Jws<Claims> claimsJws = TokenUtil.getClaims(token);
+
+        String email = (String) TokenUtil.getValue(claimsJws, "email");
+        List<Role> roles = (List<Role>) TokenUtil.getValue(claimsJws, "roles");
+        Date createdAt = (Date) TokenUtil.getValue(claimsJws, "createdAt");
+
+        if(createdAt.before(new Date())) {
+            return SessionStatus.ENDED;
+        }
 
         return SessionStatus.ACTIVE;
     }

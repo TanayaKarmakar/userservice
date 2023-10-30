@@ -1,6 +1,8 @@
 package com.app.userservice.utils;
 
 import com.app.userservice.models.entities.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.MacAlgorithm;
 
@@ -26,5 +28,14 @@ public class TokenUtil {
                 .claims(jsonForJwt)
                 .signWith(key, alg)
                 .compact();
+    }
+
+    public static Jws<Claims> getClaims(String token) {
+        return Jwts.parser()
+                .build().parseSignedClaims(token);
+    }
+
+    public static Object getValue(Jws<Claims> claimsJws, String key) {
+        return claimsJws.getPayload().get(key);
     }
 }
