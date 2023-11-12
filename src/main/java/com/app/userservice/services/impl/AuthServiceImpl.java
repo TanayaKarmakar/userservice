@@ -64,6 +64,7 @@ public class AuthServiceImpl implements AuthService {
             }
             User createdUser = modelMapper.toNewUser(signupRequestDTO);
             createdUser.setEncryptedPass(bCryptPasswordEncoder.encode(signupRequestDTO.getPassword()));
+
             userRepository.save(createdUser);
             logger.info("User creation finished for the user: {}", signupRequestDTO);
             return UserDTO.from(createdUser);
@@ -92,6 +93,7 @@ public class AuthServiceImpl implements AuthService {
             }
 
             String storedPassword = userOptional.get().getEncryptedPass();
+
             String currentPassword = bCryptPasswordEncoder.encode(password);
 
             if(!bCryptPasswordEncoder.matches(storedPassword, currentPassword)) {
